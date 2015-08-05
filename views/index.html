@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EasySocket test</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script> <!-- This is served by the server. DO NOT REMOVE THIS DEPENDENCY-->
+    <script src="/javascripts/easySocket.js"></script>
+        <script>
+          var socket = easyio.connect('http://localhost:8080');
+          socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event', { my: 'data' });
+          });
+        </script>
+  </body>
+</html>
