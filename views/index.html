@@ -5,14 +5,25 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+
+    <textarea id="myTextArea"></textarea>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/socket.io/socket.io.js"></script> <!-- This is served by the server. DO NOT REMOVE THIS DEPENDENCY-->
     <script src="/javascripts/easySocket.js"></script>
         <script>
-          var socket = easyio.connect('http://localhost:8080');
-          socket.on('news', function (data) {
-            console.log(data);
-            socket.emit('my other event', { my: 'data' });
+          easyio.url = "http://localhost:8080";
+
+          var socket = easyio.connect();
+          console.log(socket);
+
+          socket.listenTo('updateTextArea', function () {
+            console.log('trigger server');
           });
+
+          $('#myTextArea').on('keypress', function(){
+            socket.trigger('updateTextArea');
+          })
+
         </script>
   </body>
 </html>
