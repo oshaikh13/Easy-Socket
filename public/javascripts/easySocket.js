@@ -1,17 +1,22 @@
 // Create an easy io obj.... For obj decleration
 var easyio = {
-  url: null,
   // Returns an io connection (provided by socket io) and attaches helpers
-  connect: function(){
+  connect: function(url){
     return {
-      ioConnection: io.connect(this.url), //Socket io creates this io obj... We are using it.
+      ioConnection: io.connect(url),  //Socket io creates this io obj... We are using it.
 
       // These helpers fallback to socket io. For now
       listenTo: function(event, func){
+        // Create a more intuitive way of using rooms. Store and sync them...
+        // Ensure that the listenTo event JUST GETS one arg
+        if (event.split(" ").length > 1) {
+          console.log("Event args must have no spaces")
+        }
+
         this.ioConnection.on(event, func);
       },
 
-
+      // Delegate trigger to socket.io, but allow multiple args.
       trigger: function(event, data) {
         if (Array.isArray(event)){
           for (var i = 0; i < event; i++){

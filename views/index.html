@@ -8,20 +8,22 @@
 
     <textarea id="myTextArea"></textarea>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script> <!-- This is served by the server. DO NOT REMOVE THIS DEPENDENCY-->
+    <script src="/socket.io/socket.io.js"></script> 
+    <!-- This is served by the server. DO NOT REMOVE THIS DEPENDENCY --- SOCKET.IO -->
     <script src="/javascripts/easySocket.js"></script>
         <script>
-          easyio.url = "http://localhost:8080";
+          
 
-          var socket = easyio.connect();
-          console.log(socket);
+          // var socket = io.connect('http://localhost:8080');
+          // socket.on('news', function (data) {
+          //   console.log(data);
+          //   socket.emit('my other event', { my: 'data' });
+          // });
 
-          socket.listenTo('updateTextArea', function () {
-            console.log('trigger server');
-          });
+          var socket = easyio.connect("http://localhost:8080");
 
-          $('#myTextArea').on('keypress', function(){
-            socket.trigger('updateTextArea');
+          socket.listenTo('news', function(data){
+            console.log(data);
           })
 
         </script>
